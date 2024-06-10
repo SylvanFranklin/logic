@@ -1,38 +1,13 @@
-# create-svelte
+# logic
 
-Everything you need to build a Svelte project, powered by [`create-svelte`](https://github.com/sveltejs/kit/tree/main/packages/create-svelte).
+2 banks of letters 
+Premises - q p r s
+Modifiers - C A K E N (not)
 
-## Creating a project
-
-If you're seeing this, you've probably already done this step. Congrats!
-
-```bash
-# create a new project in the current directory
-npm create svelte@latest
-
-# create a new project in my-app
-npm create svelte@latest my-app
-```
-
-## Developing
-
-Once you've created a project and installed dependencies with `npm install` (or `pnpm install` or `yarn`), start a development server:
-
-```bash
-npm run dev
-
-# or start the server and open the app in a new browser tab
-npm run dev -- --open
-```
-
-## Building
-
-To create a production version of your app:
-
-```bash
-npm run build
-```
-
-You can preview the production build with `npm run preview`.
-
-> To deploy your app, you may need to install an [adapter](https://kit.svelte.dev/docs/adapters) for your target environment.
+The first round it randomly picks 3 letters from the premises and modifiers. But must include 2 premises. You could not get ‘q’ ‘N’ ‘N’. Also premises cannot repeat. You cannot get ‘q’ ‘N’ ‘q’. 
+The player types in the longest possible WFF and the game checks to see if it both works and matches the letters provided. It’s important that the other player (if playing multiplayer) can challenge. If playing multiplayer the game shouldn’t say whether or not the WFF works. Until the end of the round. Each time a player gets one right a new dice is added. When deciding what die should be added follow this:
+Even number of dice: balance premises and modifiers 
+Odd number: more premises than modifiers
+We can discuss including duplicate premises as It could make sense later. Game ends when someone reaches 11 points. 1 point awarded for each correct answer (multiplayer version correct just means not challenged) 
+When challenging the challenging player must correct it. The point is then stolen. It’s then challenging players turn.
+Feel free to challenge my rules if you think something is wrong
