@@ -1,21 +1,23 @@
 <script lang="ts">
-    import { validateWFF } from "$lib";
+    import { validateExpression, type Expression, type LogicUnit } from "$lib";
     import Wff from "$lib/wff.svelte";
-    let blox = ["p", "q", "r", "s", "C", "A", "K", "E", "N"];
-    let blox_lower = ["p", "q", "r", "s", "c", "a", "k", "e", "n"];
-    let wff = "";
-    $: wff = wff
+
+    let validLogicalUnits = ["p", "q", "r", "s", "N", "C", "A", "K", "E"];
+    let validLogicalUnitsLower = ["p", "q", "r", "s", "n", "c", "a", "k", "e"];
+    let rawExp = "";
+    // case match with validLogicalUnits
+    $: rawExp = rawExp
         .split("")
-        .filter((char) => {
-            let char_lower = char.toLowerCase();
-            if (blox_lower.includes(char_lower)) {
-                return true;
+        .map((char) => {
+            if (validLogicalUnitsLower.includes(char.toLowerCase())) {
+                return validLogicalUnits[
+                    validLogicalUnitsLower.indexOf(char.toLowerCase())
+                ];
             }
         })
-        .map((char) => {
-            return blox[blox_lower.indexOf(char.toLowerCase())];
-        })
         .join("");
+    let exp: Expression = ["A"];
+    $: exp = rawExp.split("").map((char) => char as LogicUnit);
 </script>
 
 <main
@@ -45,15 +47,17 @@
                 autofocus
                 placeholder=""
                 class="font-mono placeholder-black text-center border-b-4 border-black h-12 outline-none w-2/3"
-                bind:value={wff}
+                bind:value={rawExp}
             />
-            <button class="bg-gray-200/60 p-2 rounded-md shadow-sm">
-                validate
-            </button>
+            <!-- <button -->
+            <!--     class="bg-gray-200/60 p-2 rounded-md shadow-sm" -->
+            <!-- > -->
+            <!--     validate -->
+            <!-- </button> -->
         </form>
 
         <ol class="grid gap-2 items-center justify-center grid-flow-col">
-            {#each wff as char}
+            {#each exp as char}
                 <li
                     class="w-12 h-12 border-4 border-black hover:scale-110 flex items-center justify-center"
                 >
@@ -61,12 +65,12 @@
                 </li>
             {/each}
         </ol>
-        {#if wff.length > 0}
-            {#if validateWFF(wff)}
-                <span class="text-green-500">Valid WFF</span>
-            {:else}
-                <span class="text-red-500">Invalid WFF</span>
-            {/if}
+        <!-- {#if exp.body.length > 0} -->
+        {#if validateExpression(exp)}
+            <span class="text-green-500">Valid WFF</span>
+        {:else}
+            <span class="text-red-500">Invalid WFF</span>
         {/if}
+        <!-- {/if} -->
     </div>
 </main>
